@@ -1,13 +1,13 @@
 ![alt text](logo/1.png)
 # Facebook Automated Tagger
-This simple app lets you set groups of people that you can tag instantly, along with a signature.
+This simple app lets you set groups of people that you can tag instantly, along with a signature. You can call it FAT for short.
 
 ## Demo
 
 ![alt text](readme/demo1.gif)
 
 ## Installation
-Grab the .jar app from the [releases](https://github.com/kirankunigiri/Facebook-Automated-Tagging/releases) page.
+Grab the Mac app, Windows .exe, or .jar file from the [releases](https://github.com/kirankunigiri/Facebook-Automated-Tagging/releases) page.
 
 ## Usage
 Add your group with the following format to the table.
