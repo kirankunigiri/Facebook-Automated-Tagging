@@ -15,9 +15,15 @@ Add your group with the following format to the table.
 
 **people** - Separated by commas. It is recommended to use last initial or full name if you have multiple friends with the same first name, or your internet connection is slow.
 
-**signature** - optional. Include a colon at the end if you want to add one.
+**signature** - Optional. Use a colon at the end of the people list if you want to add  a signature.
 
-**To trigger an auto-tag, use the corresponding number key**. For example, the first group uses the number 1, the second uses 2, etc. This will probably be updated to include a double click to trigger feature in the future.
+****
+
+There are 2 ways to **start an auto-tag:**
+
+1. **Double-click a group row**
+
+2. **Shortcut Keys:** Use the corresponding number key. For example, the first group uses the number 1, the second uses 2, etc.
 
 
 ## Examples
