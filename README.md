@@ -1,14 +1,14 @@
 # Facebook Automated Tagger
 This simple app lets you set groups of people that you can tag instantly, along with a signature.
 
-### Demo
+## Demo
 
 ![alt text](readme/demo1.gif)
 
-### Installation
+## Installation
 Grab the .jar app from the [releases](https://github.com/kirankunigiri/Facebook-Automated-Tagging/releases) page.
 
-### Usage
+## Usage
 Add your group with the following format to the table.
 
 `person1, person2, personN: signature`
@@ -20,7 +20,7 @@ Add your group with the following format to the table.
 **To trigger an auto-tag, use the corresponding number key**. For example, the first group uses the number 1, the second uses 2, etc. This will probably be updated to include a double click to trigger feature in the future.
 
 
-### Examples
+## Examples
 
 **Format:** `person1, person2, personN: signature`
 
@@ -30,6 +30,6 @@ Add your group with the following format to the table.
 
 `Sahil R, Amogh S: LOL HAHA this is hilarious`
 
-### Format Demo
+## Format Demo
 
 ![alt text](readme/demo2.gif)
