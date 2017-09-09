@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Facebook-Automated-Tagging:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Facebook_Automated_Tagging_jar</output-path>
+    <root id="archive" name="Facebook-Automated-Tagging.jar">
+      <element id="module-output" name="Facebook-Automated-Tagging" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+    </root>
+  </artifact>
+</component>
