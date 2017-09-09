@@ -7,11 +7,14 @@ import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by kunig on 9/7/2017.
+ * Created by Kiran Kunigiri on 9/7/2017.
+ * This class uses the Robot class to
+ * tag a person on Facebook given their name.
  */
 public class Tagger {
 
     static Robot robot = null;
+    static final int DELAY = 1200;
 
     public static void tagGroup(Group group) {
 
@@ -22,7 +25,7 @@ public class Tagger {
         }
 
         try {
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(DELAY);
         } catch (Exception e) {
 
         }
@@ -91,32 +94,10 @@ public class Tagger {
     }
 
 
-
-
-
-
-    public static final class OsUtils
-    {
-        private static String OS = null;
-        public static String getOsName()
-        {
-            if(OS == null) { OS = System.getProperty("os.name"); }
-            return OS;
-        }
-        public static boolean isWindows()
-        {
-            return getOsName().startsWith("Windows");
-        }
-
-        public static boolean isUnix() {
-            return getOsName().startsWith("mac");
-        }
-    }
-
-
 }
 
 
+// Taken from a tutorial
 class OSValidator {
 
     private static String OS = System.getProperty("os.name").toLowerCase();

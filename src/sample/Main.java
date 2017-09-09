@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -18,12 +15,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import java.io.*;
-import java.util.Scanner;
 import java.util.prefs.Preferences;
 
+
+/**
+ * Created by Kiran Kunigiri on 9/7/2017.
+ * The Main class for the Facebook
+ * Automated Tagger app.
+ */
 public class Main extends Application {
 
     Stage window;
@@ -36,46 +35,70 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
+
+        // Create the stage
         window = primaryStage;
-        window.setTitle("Facebook Automated Tagging");
+        window.setTitle("Facebook Automated Tagger");
+        window.setMinWidth(200);
+        window.setMinHeight(300);
+        window.setWidth(340);
+        window.setHeight(500);
 
-        //Name column
+        // Table
+        table = new TableView<>();
+
+        // Double click feature - tag a group after double-clicking its row
+        table.setRowFactory( tv -> {
+            TableRow<Group> row = new TableRow<Group>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Tagger.tagGroup(row.getItem());
+                }
+            });
+            return row ;
+        });
+
+        // Name column
         TableColumn<Group, String> nameColumn = new TableColumn<>("Groups");
-        nameColumn.setMinWidth(200);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+        nameColumn.prefWidthProperty().bind(table.widthProperty().subtract(2));
 
-        //Name input
+        // Load group data into tables
+        loadGroups();
+        table.setItems(groups);
+        table.getColumns().add(nameColumn);
+
+        // Name input text field
         nameInput = new TextField();
         nameInput.setPromptText("Name");
-        nameInput.setMinWidth(100);
-        //Button
+        nameInput.prefWidthProperty().bind(table.widthProperty().subtract(130));
+
+        // Buttons - add/delete
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addButtonClicked());
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteButtonClicked());
 
+        // HBox - contains text field, add/delete buttons
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
         hBox.getChildren().addAll(nameInput, addButton, deleteButton);
 
-        table = new TableView<>();
-        //table.setItems(getGroups());
-        loadGroups();
-        table.setItems(groups);
-
-        table.getColumns().addAll(nameColumn);
-
+        // VBox - table and HBox
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table, hBox);
+        table.prefHeightProperty().bind(vBox.heightProperty().subtract(hBox.getHeight()));
 
+        // Create and load scene
         Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.show();
 
+        // Add shortcut keys 1 - 9 and 0
+        // The user can press any of the number keys to trigger an auto tag
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            //final KeyCombination keyComb = new KeyCodeCombination(KeyCode.DIGIT1, KeyCombination.CONTROL_DOWN, KeyCombination.ALT_ANY);
             final KeyCombination k1 = new KeyCodeCombination(KeyCode.DIGIT1);;
             final KeyCombination k2 = new KeyCodeCombination(KeyCode.DIGIT2);;
             final KeyCombination k3 = new KeyCodeCombination(KeyCode.DIGIT3);;
@@ -128,13 +151,9 @@ public class Main extends Application {
     }
 
 
-    //Add button clicked
-    public void addButtonClicked(){
-        // Limit to 10
-        if (groups.size() == 10) {
-            return;
-        }
-
+    // Add button clicked - add a group item
+    public void addButtonClicked() {
+        // Create a new group
         Group group = new Group();
         group.setContent(nameInput.getText());
         table.getItems().add(group);
@@ -142,59 +161,49 @@ public class Main extends Application {
         saveGroups();
     }
 
-    //Delete button clicked
-    public void deleteButtonClicked(){
-        ObservableList<Group> productSelected, allProducts;
-        allProducts = table.getItems();
-        productSelected = table.getSelectionModel().getSelectedItems();
+    // Delete button clicked - remove a group item
+    public void deleteButtonClicked() {
+        // Get the selected group
+        ObservableList<Group> groupSelected, allGroups;
+        allGroups = table.getItems();
+        groupSelected = table.getSelectionModel().getSelectedItems();
 
-        productSelected.forEach(allProducts::remove);
+        // Remove the selected group
+        groupSelected.forEach(allGroups::remove);
         saveGroups();
     }
 
-    //Get all of the products
-    public ObservableList<Group> testGroups(){
-        groups.add(new Group("Yusuf, Sahil, Kashyap, Amogh, Avaneesh"));
-        groups.add(new Group("Mihir, Avaneesh"));
-        groups.add(new Group("Prachin, Mihir, Avaneesh"));
-        groups.add(new Group("Sriharsha, Mihir"));
-        return groups;
-    }
-
-    // Save the groups to a local file
+    // Save the groups to the preferences
     public void saveGroups() {
-
+        // Get the preference object
         Preferences prefs = Preferences.userNodeForPackage(sample.Main.class);
 
-        for (int i = 0; i < 10; i++) {
+        // Save all of the existing groups
+        for (int i = 0; i < groups.size(); i++) {
             // Remove the previous preference value
             final String PREF_NAME = i + "";
             prefs.remove(PREF_NAME);
 
-            if (i < groups.size()) {
-                // If a value exists, update it
-                Group group = table.getItems().get(i);
-                prefs.put(PREF_NAME, group.getContent());
-            } else {
-                // If a value does not exist, do nothing
-            }
-
+            // Get the group and add it to the preferences
+            Group group = table.getItems().get(i);
+            prefs.put(PREF_NAME, group.getContent());
         }
 
     }
 
-    // Read the chemicals from a local file
+    // Load all of the group data from the preferences
     public void loadGroups() {
-
+        // Get the preference object
         Preferences prefs = Preferences.userNodeForPackage(sample.Main.class);
 
+        // Add all the existing preference data as groups
         for (int i = 0; i < 10; i++) {
-            // Get the value of the preference;
-            // default value is returned if the preference does not exist
+            // The default value is returned if a preference does not exist
             String defaultValue = "";
-            String propertyValue = prefs.get(i + "", defaultValue); // "a string"
+            // The group content value
+            String propertyValue = prefs.get(i + "", defaultValue);
             if (!propertyValue.isEmpty()) {
-                System.out.println(propertyValue);
+                // Add the group to the list
                 Group group= new Group(propertyValue);
                 groups.add(group);
             }
