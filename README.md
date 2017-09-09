@@ -1,3 +1,4 @@
+![alt text](logo/1.png)
 # Facebook Automated Tagger
 This simple app lets you set groups of people that you can tag instantly, along with a signature.
 
