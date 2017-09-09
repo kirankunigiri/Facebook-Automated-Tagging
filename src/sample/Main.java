@@ -71,16 +71,15 @@ public class Main extends Application {
         table.setItems(groups);
         table.getColumns().add(nameColumn);
 
-        // Name input text field
-        nameInput = new TextField();
-        nameInput.setPromptText("Name");
-        nameInput.prefWidthProperty().bind(table.widthProperty().subtract(130));
-
         // Buttons - add/delete
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> addButtonClicked());
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteButtonClicked());
+
+        // Name input text field
+        nameInput = new TextField();
+        nameInput.setPromptText("Name");
 
         // HBox - contains text field, add/delete buttons
         HBox hBox = new HBox();
@@ -97,6 +96,9 @@ public class Main extends Application {
         Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.show();
+
+        // Update input field width
+        nameInput.prefWidthProperty().bind(table.widthProperty().subtract(40 + addButton.getWidth() + deleteButton.getWidth()));
 
         // Add shortcut keys 1 - 9 and 0
         // The user can press any of the number keys to trigger an auto tag

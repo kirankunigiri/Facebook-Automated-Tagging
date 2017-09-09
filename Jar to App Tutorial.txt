@@ -1,0 +1,8 @@
+How to turn a .jar into a Mac .app and a Windows .exe app
+
+Mac
+https://github.com/Jorl17/jar2app
+jar2app FAT.jar -i icon.icns
+
+Windows
+JSmooth
