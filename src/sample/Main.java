@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -44,6 +45,7 @@ public class Main extends Application {
         window.setMinHeight(300);
         window.setWidth(340);
         window.setHeight(500);
+        window.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon.png")));
 
         // Table
         table = new TableView<>();
